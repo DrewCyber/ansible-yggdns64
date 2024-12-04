@@ -1,0 +1,34 @@
+# Listen address
+listen: "[{{ yggdns64_listen_addr }}]:{{ yggdns64_listen_port }}"
+
+# Local prefix for translations
+prefix: "{{ yggdns64_translation_prefix }}"
+
+# A complete prohibition on the return of A records
+# Otherwise return A records with AAAA
+strict-ipv6: {{ yggdns64_strict_ipv6 }}
+
+# What to do with an "0.0.0.0" and [::] addresses
+#   "ignore"  - treated like a regular address (i.e. 0.0.0.0 return as [prefix::], [::] - drop)
+#               default behavior.
+#   "process" - 0.0.0.0 translate to [::]. [::] return "as-is"
+#   "discard" - discard this address
+invalid-address: ignore
+
+# Forwarders
+#forwarders:
+#  ".ygg": 192.168.2.161:53
+#  ".ufm": 192.168.2.1:53
+
+# Default DNS forwarder
+default: {{ yggdns64_dns_forwarder }}
+
+# Static addresses
+#static:
+#  "test.com" : 8.8.8.8
+#  "test2.com" : 8.8.8.8
+
+# Cache timers. In minutes
+cache:
+    expiration: 5
+    purge: 10

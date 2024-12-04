@@ -1,0 +1,8 @@
+---
+- hosts: vm
+  roles:
+    - role: ../ansible-yggdns64
+  vars:
+    yggdns64_listen_addr: 303:c771:1561:ed81::2
+    yggdns64_listen_port: 53
+    yggdns64_translation_prefix: "300:dada:feda:f443:ff::"

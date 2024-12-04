@@ -1,0 +1,46 @@
+---
+- name: Disable SELinux
+  ansible.posix.selinux:
+    state: disabled
+
+- name: Install git + golang
+  dnf:
+    name:
+      - git 
+      - golang
+    state: present
+
+- name: Checkout yggdns64 repo
+  ansible.builtin.git:
+    repo: "{{ _yggdns64_repo_url }}"
+    dest: /tmp/checkout
+
+- name: Build yggdns64
+  shell: |
+    go build -o /usr/local/bin/yggdns64
+  args:
+    chdir: /tmp/checkout
+    creates: /usr/local/bin/yggdns64
+
+- name: Generate yggdns64 configuration
+  template:
+    dest: "/etc/yggdns64.conf"
+    src: yggdns64.conf.j2
+    mode: 0600
+  notify: Restart yggdns64
+
+- name: Create yggdns64 service
+  template:
+    dest: "/etc/systemd/system/yggdns64.service"
+    src: yggdns64.service.j2
+    mode: 0644
+
+- name: Reload systemd to recognize the new service
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: Start and enable the yggdns64 service
+  ansible.builtin.systemd:
+    name: yggdns64
+    state: started
+    enabled: yes

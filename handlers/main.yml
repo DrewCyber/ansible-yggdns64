@@ -1,0 +1,4 @@
+- name: Restart yggdns64
+  service:
+    name: yggdns64
+    state: restarted

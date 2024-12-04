@@ -1,0 +1,6 @@
+---
+yggdns64_listen_addr: 303:c771:1561:ed81::1
+yggdns64_listen_port: 53
+yggdns64_translation_prefix: "300:dada:feda:f443:ff::"
+yggdns64_strict_ipv6: yes
+yggdns64_dns_forwarder: 8.8.8.8:53
